@@ -1,6 +1,8 @@
 package com.example.androidbancodedados.view.crud;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -29,14 +31,18 @@ public class CrudDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                new Thread(() ->{
-                    long contactId = sqlHelper.addItem(binding.etName.getText().toString(), binding.etContact.getText().toString());
-                    
-                    runOnUiThread(() ->{
-                        if(contactId > 0)
-                            Toast.makeText(CrudDetailsActivity.this, "Contato salvo", Toast.LENGTH_SHORT).show();
-                    });
-                });
+//                new Thread(() ->{
+//                    long contactId = sqlHelper.addItem(binding.etName.getText().toString(), binding.etContact.getText().toString());
+//
+//                    runOnUiThread(() ->{
+//                        if(contactId > 0)
+//                            Toast.makeText(CrudDetailsActivity.this, "Contato salvo", Toast.LENGTH_SHORT).show();
+//                    });
+//                });
+
+                long contactId = sqlHelper.addItem(binding.etName.getText().toString(), binding.etContact.getText().toString());
+                if(contactId > 0)
+                    Toast.makeText(CrudDetailsActivity.this, "Contato salvo", Toast.LENGTH_SHORT).show();
             }
         });
     }

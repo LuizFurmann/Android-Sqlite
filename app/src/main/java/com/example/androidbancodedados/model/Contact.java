@@ -1,9 +1,13 @@
 package com.example.androidbancodedados.model;
 
+import java.time.LocalDateTime;
+
 public class Contact {
 
     String name;
     String phoneNumber;
+
+    LocalDateTime createdDate;
 
     public String getName() {
         return name;
@@ -19,5 +23,13 @@ public class Contact {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
     }
 }

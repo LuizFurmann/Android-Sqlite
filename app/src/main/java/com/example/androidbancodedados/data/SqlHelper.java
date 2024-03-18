@@ -12,6 +12,8 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.androidbancodedados.model.Contact;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,7 +23,7 @@ import java.util.Locale;
 public class SqlHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "contact_db";
+    private static final String DATABASE_NAME = "contact_db.db";
     private static final String TABLE_CONTACT = "contact";
     private static final String KEY_ID = "id";
     private static final String NAME = "name";
@@ -73,5 +75,26 @@ public class SqlHelper extends SQLiteOpenHelper {
                 db.endTransaction();
         }
         return contactId;
+    }
+
+    public List<Contact> getContacts() {
+        List<Contact> contactList = new ArrayList<>();
+        String selectQuery = "SELECT * FROM " + TABLE_CONTACT;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Contact contact = new Contact();
+                contact.setName(cursor.getString(cursor.getColumnIndex(NAME)));
+                contact.setPhoneNumber(cursor.getString(cursor.getColumnIndex(PHONE_NUMBER)));
+
+                contactList.add(contact);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return contactList;
     }
 }
