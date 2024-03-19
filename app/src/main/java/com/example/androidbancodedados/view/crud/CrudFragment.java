@@ -38,6 +38,14 @@ public class CrudFragment extends Fragment {
         return binding.getRoot();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        setupViewModel();
+        setupRecyclerView();
+    }
+
     private void setupViewModel(){
         ContactViewModel viewModel = new ViewModelProvider(requireActivity()).get(ContactViewModel.class);
 

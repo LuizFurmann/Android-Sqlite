@@ -39,6 +39,9 @@ public class CrudDetailsActivity extends AppCompatActivity {
 
             binding.etName.setText(contact.getName());
             binding.etContact.setText(contact.getPhoneNumber());
+        }else{
+            binding.etName.setEnabled(true);
+            binding.etContact.setEnabled(true);
         }
     }
 
@@ -59,6 +62,7 @@ public class CrudDetailsActivity extends AppCompatActivity {
                 long contactId = sqlHelper.addItem(binding.etName.getText().toString(), binding.etContact.getText().toString());
                 if(contactId > 0)
                     Toast.makeText(CrudDetailsActivity.this, "Contato salvo", Toast.LENGTH_SHORT).show();
+                    finish();
             }
         });
     }
@@ -82,7 +86,11 @@ public class CrudDetailsActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.option_menu, menu);
+        Intent intent = getIntent();
+        if (intent.getSerializableExtra("contact") != null) {
+            inflater.inflate(R.menu.option_menu, menu);
+            return true;
+        }
         return true;
     }
 }
