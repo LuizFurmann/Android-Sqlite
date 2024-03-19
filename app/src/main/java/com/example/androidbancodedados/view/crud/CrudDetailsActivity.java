@@ -18,6 +18,7 @@ import com.example.androidbancodedados.R;
 import com.example.androidbancodedados.data.SqlHelper;
 import com.example.androidbancodedados.databinding.ActivityCrudDetailsBinding;
 import com.example.androidbancodedados.model.Contact;
+import com.example.androidbancodedados.view.crud.contact.ContactViewModel;
 
 public class CrudDetailsActivity extends AppCompatActivity {
 
@@ -80,26 +81,26 @@ public class CrudDetailsActivity extends AppCompatActivity {
 
                     Contact contact = (Contact) getIntent().getSerializableExtra("contact");
 
-                    contact.setId(contact.getId());
-                    contact.setName(binding.etName.getText().toString());
-                    contact.setPhoneNumber(binding.etContact.getText().toString());
-                    contactViewModel.editContact(contact);
-                    finish();
+//                    contact.setId(contact.getId());
+//                    contact.setName(binding.etName.getText().toString());
+//                    contact.setPhoneNumber(binding.etContact.getText().toString());
+//                    contactViewModel.editContact(contact);
+//                    finish();
                 }else{
-                    Contact contact = new Contact();
-                    contact.setName(binding.etName.getText().toString());
-                    contact.setPhoneNumber(binding.etContact.getText().toString());
-
-                    contactViewModel.addContact(contact);
-                    Toast.makeText(CrudDetailsActivity.this, "Contato salvo", Toast.LENGTH_SHORT).show();
-                    finish();
+//                    Contact contact = new Contact();
+//                    contact.setName(binding.etName.getText().toString());
+//                    contact.setPhoneNumber(binding.etContact.getText().toString());
+//
+//                    contactViewModel.addContact(contact);
+//                    Toast.makeText(CrudDetailsActivity.this, "Contato salvo", Toast.LENGTH_SHORT).show();
+//                    finish();
                 }
             }
         });
     }
 
     public void deleteContact(){
-        contactViewModel.deleteContact(contact);
+//        contactViewModel.deleteContact(contact);
     }
 
     private void deleteConfirmation(){

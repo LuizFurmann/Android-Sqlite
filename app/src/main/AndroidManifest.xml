@@ -15,6 +15,9 @@
         android:theme="@style/Theme.Custom"
         tools:targetApi="31">
         <activity
+            android:name=".view.crud.client.ClientDetailsActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.crud.CrudDetailsActivity"
             android:exported="false" />
         <activity

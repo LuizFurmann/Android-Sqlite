@@ -1,4 +1,4 @@
-package com.example.androidbancodedados.view.crud;
+package com.example.androidbancodedados.view.crud.contact;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.androidbancodedados.databinding.RowContactBinding;
 import com.example.androidbancodedados.model.Contact;
+import com.example.androidbancodedados.view.crud.CrudDetailsActivity;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -12,14 +12,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.androidbancodedados.databinding.FragmentCrudBinding;
+import com.example.androidbancodedados.model.Client;
 import com.example.androidbancodedados.model.Contact;
+import com.example.androidbancodedados.view.crud.client.ClientAdapter;
+import com.example.androidbancodedados.view.crud.client.ClientDetailsActivity;
+import com.example.androidbancodedados.view.crud.client.ClientViewModel;
+import com.example.androidbancodedados.view.crud.contact.ContactAdapter;
+import com.example.androidbancodedados.view.crud.contact.ContactViewModel;
 
 import java.util.List;
 
 
 public class CrudFragment extends Fragment {
 
-    private ContactAdapter contactAdapter = new ContactAdapter();
+    private ClientAdapter clientAdapter = new ClientAdapter();
     FragmentCrudBinding binding;
     public CrudFragment() {}
     @Override
@@ -31,7 +37,7 @@ public class CrudFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentCrudBinding.inflate(inflater, container, false);
 
-        createNewContact();
+        createNewClient();
         setupViewModel();
         setupRecyclerView();
 
@@ -47,29 +53,29 @@ public class CrudFragment extends Fragment {
     }
 
     private void setupViewModel(){
-        ContactViewModel viewModel = new ViewModelProvider(requireActivity()).get(ContactViewModel.class);
+        ClientViewModel viewModel = new ViewModelProvider(requireActivity()).get(ClientViewModel.class);
 
-        viewModel.getContacts(requireActivity());
+        viewModel.getClients(requireActivity());
         viewModel.getLiveData().observe(requireActivity(), data -> {
             updateList(data);
         });
     }
 
     private void setupRecyclerView(){
-        contactAdapter.context = requireActivity();
-        binding.rvContact.setLayoutManager(new LinearLayoutManager(requireActivity()));
-        binding.rvContact.setAdapter(contactAdapter);
+        clientAdapter.context = requireActivity();
+        binding.rvClient.setLayoutManager(new LinearLayoutManager(requireActivity()));
+        binding.rvClient.setAdapter(clientAdapter);
     }
 
-    private void updateList(List<Contact> contactList){
-        contactAdapter.updateList(contactList);
-        contactAdapter.notifyDataSetChanged();
+    private void updateList(List<Client> clientList){
+        clientAdapter.updateList(clientList);
+        clientAdapter.notifyDataSetChanged();
     }
-    private void createNewContact(){
-        binding.fabNewContact.setOnClickListener(new View.OnClickListener() {
+    private void createNewClient(){
+        binding.fabNewClient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(requireActivity(), CrudDetailsActivity.class);
+                Intent intent = new Intent(requireActivity(), ClientDetailsActivity.class);
                 startActivity(intent);
             }
         });
