@@ -80,8 +80,16 @@ public class SqlHelper extends SQLiteOpenHelper {
         values.put("name", contact.getName());
         values.put("phone_number", contact.getPhoneNumber());
 
-        String [] args = {(contact.getId().toString())};
+        String [] args = {contact.getId().toString()};
         db.update("contact", values, "id=?", args);
+        db.close();
+    }
+
+    public void deleteContact(Contact contact){
+        SQLiteDatabase db = getWritableDatabase();
+
+        String [] args = {contact.getId().toString()};
+        db.delete("contact", "id=?", args);
         db.close();
     }
 

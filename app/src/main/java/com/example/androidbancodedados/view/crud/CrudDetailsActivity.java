@@ -24,6 +24,8 @@ public class CrudDetailsActivity extends AppCompatActivity {
 
     SqlHelper sqlHelper = new SqlHelper(this);
 
+    Contact contact;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         binding = ActivityCrudDetailsBinding.inflate(getLayoutInflater());
@@ -44,6 +46,7 @@ public class CrudDetailsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent.getSerializableExtra("contact") != null) {
             Contact contact = (Contact) getIntent().getSerializableExtra("contact");
+            this.contact = contact;
             binding.btnSave.setVisibility(View.GONE);
 
             binding.etName.setText(contact.getName());
@@ -83,7 +86,7 @@ public class CrudDetailsActivity extends AppCompatActivity {
                     contact.setName(binding.etName.getText().toString());
                     contact.setPhoneNumber(binding.etContact.getText().toString());
 
-                    sqlHelper.addItem(contact);
+                    contactViewModel.addContact(contact);
                     Toast.makeText(CrudDetailsActivity.this, "Contato salvo", Toast.LENGTH_SHORT).show();
                     finish();
                 }
@@ -91,10 +94,14 @@ public class CrudDetailsActivity extends AppCompatActivity {
         });
     }
 
+    public void deleteContact(){
+        contactViewModel.deleteContact(contact);
+    }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.option_delete){
-
+            deleteContact();
         }
         if(item.getItemId() == R.id.option_edit){
             binding.etName.setEnabled(true);

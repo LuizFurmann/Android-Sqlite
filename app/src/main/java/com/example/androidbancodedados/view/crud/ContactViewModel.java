@@ -35,8 +35,18 @@ public class ContactViewModel extends ViewModel {
         return contacts;
     }
 
+    public void addContact(Contact contact){
+        SqlHelper sqlHelper = new SqlHelper(context);
+        sqlHelper.addItem(contact);
+    }
+
     public void editContact(Contact contact){
         SqlHelper sqlHelper = new SqlHelper(context);
         sqlHelper.editItem(contact);
+    }
+
+    public void deleteContact(Contact contact){
+        SqlHelper sqlHelper = new SqlHelper(context);
+        sqlHelper.deleteContact(contact);
     }
 }
