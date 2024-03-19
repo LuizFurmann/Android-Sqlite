@@ -1,9 +1,12 @@
 package com.example.androidbancodedados.view.crud;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -32,6 +35,7 @@ public class CrudDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(binding.getRoot());
 
+        setupToolbar();
         setupViewModel();
         saveContact();
         updateView();
@@ -98,17 +102,34 @@ public class CrudDetailsActivity extends AppCompatActivity {
         contactViewModel.deleteContact(contact);
     }
 
+    private void deleteConfirmation(){
+        new AlertDialog.Builder(this)
+                .setTitle("Deletar")
+                .setMessage("Deseja deletar o contato?")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        deleteContact();
+                        finish();
+                    }})
+                .setNegativeButton(android.R.string.no, null).show();
+    }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.option_delete){
-            deleteContact();
+            deleteConfirmation();
         }
         if(item.getItemId() == R.id.option_edit){
             binding.etName.setEnabled(true);
             binding.etContact.setEnabled(true);
             binding.btnSave.setVisibility(View.VISIBLE);
         }
+
         switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -123,5 +144,13 @@ public class CrudDetailsActivity extends AppCompatActivity {
             return true;
         }
         return true;
+    }
+
+    private void setupToolbar() {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_back);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 }
