@@ -112,6 +112,26 @@ public class SqlHelper extends SQLiteOpenHelper {
         return clientList;
     }
 
+    public void editClient(Client client) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("name", client.getName());
+        values.put("city", client.getCity());
+
+        String[] args = {client.getId().toString()};
+        db.update(TABLE_CLIENT, values, "id=?", args);
+        db.close();
+    }
+
+    public void deleteClient(Client client) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        String[] args = {client.getId().toString()};
+        db.delete(TABLE_CLIENT, "id=?", args);
+        db.close();
+    }
+
 //    public void addItem(Contact contact){
 //        SQLiteDatabase db = getWritableDatabase();
 //        try {

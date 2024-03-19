@@ -36,4 +36,14 @@ public class ClientViewModel extends ViewModel {
         clients.setValue(sqlHelper.getClients());
         return clients;
     }
+
+    public void editClient(Client client) {
+        SqlHelper sqlHelper = new SqlHelper(context);
+        sqlHelper.editClient(client);
+    }
+
+    public void deleteClient(Client client) {
+        SqlHelper sqlHelper = new SqlHelper(context);
+        sqlHelper.deleteClient(client);
+    }
 }
