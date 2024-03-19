@@ -19,6 +19,8 @@ public class ContactViewModel extends ViewModel {
 
     MutableLiveData<List<Contact>> contacts;
 
+    Context context;
+
     public ContactViewModel() {
         contacts = new MutableLiveData();
     }
@@ -31,5 +33,10 @@ public class ContactViewModel extends ViewModel {
         SqlHelper sqlHelper = new SqlHelper(context);
         contacts.setValue(sqlHelper.getContacts());
         return contacts;
+    }
+
+    public void editContact(Contact contact){
+        SqlHelper sqlHelper = new SqlHelper(context);
+        sqlHelper.editItem(contact);
     }
 }

@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 
 public class Contact implements Serializable {
 
+    Integer id;
     String name;
     String phoneNumber;
 
@@ -14,6 +15,14 @@ public class Contact implements Serializable {
 
     public String getName() {
         return name;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public void setName(String name) {

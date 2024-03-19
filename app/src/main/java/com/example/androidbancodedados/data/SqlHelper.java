@@ -37,7 +37,7 @@ public class SqlHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_CONTACT_TABLE = "CREATE TABLE " + TABLE_CONTACT + "("
-                + KEY_ID + " INTEGER PRIMARY KEY,"
+                + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + NAME + " TEXT,"
                 + PHONE_NUMBER + " TEXT,"
                 + CREATED_DATE + " DATETIME)";
@@ -50,23 +50,20 @@ public class SqlHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public long addItem(String name, String phoneNumber){
+    public void addItem(Contact contact){
         SQLiteDatabase db = getWritableDatabase();
-
-        long contactId = 0;
-
         try {
             db.beginTransaction();
 
             ContentValues values = new ContentValues();
-            values.put("name", name);
-            values.put("phone_number", phoneNumber);
+            values.put("name", contact.getName());
+            values.put("phone_number", contact.getPhoneNumber());
 
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", new Locale("pt", "BR"));
-            String currentDate = sdf.format(new Date());
-
-            values.put("created_date", currentDate);
-            contactId = db.insertOrThrow("contact", null, values);
+//            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", new Locale("pt", "BR"));
+//            String currentDate = sdf.format(new Date());
+//
+//            values.put("created_date", currentDate);
+            db.insertOrThrow("contact", null, values);
             db.setTransactionSuccessful();
         }catch (Exception e){
             Log.e("SQLITE", e.getMessage(), e);
@@ -74,7 +71,18 @@ public class SqlHelper extends SQLiteOpenHelper {
             if(db.isOpen())
                 db.endTransaction();
         }
-        return contactId;
+    }
+
+    public void editItem(Contact contact){
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("name", contact.getName());
+        values.put("phone_number", contact.getPhoneNumber());
+
+        String [] args = {(contact.getId().toString())};
+        db.update("contact", values, "id=?", args);
+        db.close();
     }
 
     public List<Contact> getContacts() {
@@ -87,6 +95,7 @@ public class SqlHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 Contact contact = new Contact();
+                contact.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID)));
                 contact.setName(cursor.getString(cursor.getColumnIndex(NAME)));
                 contact.setPhoneNumber(cursor.getString(cursor.getColumnIndex(PHONE_NUMBER)));
 

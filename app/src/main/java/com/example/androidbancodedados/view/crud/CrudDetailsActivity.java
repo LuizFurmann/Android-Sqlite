@@ -2,6 +2,8 @@ package com.example.androidbancodedados.view.crud;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -16,8 +18,9 @@ import com.example.androidbancodedados.model.Contact;
 
 public class CrudDetailsActivity extends AppCompatActivity {
 
-
     ActivityCrudDetailsBinding binding;
+
+    ContactViewModel contactViewModel;
 
     SqlHelper sqlHelper = new SqlHelper(this);
 
@@ -27,8 +30,14 @@ public class CrudDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(binding.getRoot());
 
+        setupViewModel();
         saveContact();
         updateView();
+    }
+
+    private void setupViewModel(){
+        contactViewModel = new ViewModelProvider(this).get(ContactViewModel.class);
+        contactViewModel.context = this;
     }
 
     private void updateView(){
@@ -59,10 +68,25 @@ public class CrudDetailsActivity extends AppCompatActivity {
 //                    });
 //                });
 
-                long contactId = sqlHelper.addItem(binding.etName.getText().toString(), binding.etContact.getText().toString());
-                if(contactId > 0)
+                Intent intent = getIntent();
+                if (intent.getSerializableExtra("contact") != null) {
+
+                    Contact contact = (Contact) getIntent().getSerializableExtra("contact");
+
+                    contact.setId(contact.getId());
+                    contact.setName(binding.etName.getText().toString());
+                    contact.setPhoneNumber(binding.etContact.getText().toString());
+                    contactViewModel.editContact(contact);
+                    finish();
+                }else{
+                    Contact contact = new Contact();
+                    contact.setName(binding.etName.getText().toString());
+                    contact.setPhoneNumber(binding.etContact.getText().toString());
+
+                    sqlHelper.addItem(contact);
                     Toast.makeText(CrudDetailsActivity.this, "Contato salvo", Toast.LENGTH_SHORT).show();
                     finish();
+                }
             }
         });
     }
