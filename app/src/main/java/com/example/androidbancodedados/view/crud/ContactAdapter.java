@@ -1,6 +1,9 @@
 package com.example.androidbancodedados.view.crud;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -13,12 +16,12 @@ import java.util.List;
 
 public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactViewHolder> {
 
+    Context context;
     private List<Contact> listItems = new ArrayList<>();
 
     public void updateList(List<Contact> listItems){
         this.listItems.clear();
         this.listItems.addAll(listItems);
-
     }
 
     @NonNull
@@ -33,6 +36,15 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
         Contact currentPosition = listItems.get(position);
 
         holder.contactName.setText(currentPosition.getName());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, CrudDetailsActivity.class);
+                intent.putExtra("contact", currentPosition);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

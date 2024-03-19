@@ -48,6 +48,7 @@ public class CrudFragment extends Fragment {
     }
 
     private void setupRecyclerView(){
+        contactAdapter.context = requireActivity();
         binding.rvContact.setLayoutManager(new LinearLayoutManager(requireActivity()));
         binding.rvContact.setAdapter(contactAdapter);
     }

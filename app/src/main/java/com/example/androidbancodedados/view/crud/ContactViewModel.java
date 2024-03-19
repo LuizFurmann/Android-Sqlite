@@ -32,5 +32,4 @@ public class ContactViewModel extends ViewModel {
         contacts.setValue(sqlHelper.getContacts());
         return contacts;
     }
-
 }

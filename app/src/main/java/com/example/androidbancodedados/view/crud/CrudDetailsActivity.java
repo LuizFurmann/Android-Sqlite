@@ -3,12 +3,14 @@ package com.example.androidbancodedados.view.crud;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.androidbancodedados.data.SqlHelper;
 import com.example.androidbancodedados.databinding.ActivityCrudDetailsBinding;
+import com.example.androidbancodedados.model.Contact;
 
 public class CrudDetailsActivity extends AppCompatActivity {
 
@@ -24,6 +26,17 @@ public class CrudDetailsActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         saveContact();
+        updateView();
+    }
+
+    private void updateView(){
+        Intent intent = getIntent();
+        if (intent.getSerializableExtra("contact") != null) {
+            Contact contact = (Contact) getIntent().getSerializableExtra("contact");
+
+            binding.etName.setText(contact.getName());
+            binding.etContact.setText(contact.getPhoneNumber());
+        }
     }
 
     private void saveContact(){

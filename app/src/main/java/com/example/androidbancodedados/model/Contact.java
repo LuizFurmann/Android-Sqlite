@@ -1,8 +1,11 @@
 package com.example.androidbancodedados.model;
 
+import android.os.Parcelable;
+
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class Contact {
+public class Contact implements Serializable {
 
     String name;
     String phoneNumber;
