@@ -28,16 +28,16 @@ public class ContactViewModel extends ViewModel {
         return contacts;
     }
 
-//    public MutableLiveData<List<Contact>> getContacts(Activity context){
-//        SqlHelper sqlHelper = new SqlHelper(context);
-//        contacts.setValue(sqlHelper.getContacts());
-//        return contacts;
-//    }
+    public MutableLiveData<List<Contact>> getContacts(Client client,Activity context){
+        SqlHelper sqlHelper = new SqlHelper(context);
+        contacts.setValue(sqlHelper.getContacts(client));
+        return contacts;
+    }
 //
-//    public void addContact(Contact contact){
-//        SqlHelper sqlHelper = new SqlHelper(context);
-//        sqlHelper.addItem(contact);
-//    }
+    public void addContact(Contact contact){
+        SqlHelper sqlHelper = new SqlHelper(context);
+        sqlHelper.addContact(contact);
+    }
 //
 //    public void editContact(Contact contact){
 //        SqlHelper sqlHelper = new SqlHelper(context);

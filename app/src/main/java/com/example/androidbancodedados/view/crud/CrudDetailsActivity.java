@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.example.androidbancodedados.R;
 import com.example.androidbancodedados.data.SqlHelper;
 import com.example.androidbancodedados.databinding.ActivityCrudDetailsBinding;
+import com.example.androidbancodedados.model.Client;
 import com.example.androidbancodedados.model.Contact;
 import com.example.androidbancodedados.view.crud.contact.ContactViewModel;
 
@@ -29,6 +30,7 @@ public class CrudDetailsActivity extends AppCompatActivity {
     SqlHelper sqlHelper = new SqlHelper(this);
 
     Contact contact;
+    Client client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,8 @@ public class CrudDetailsActivity extends AppCompatActivity {
     private void setupViewModel(){
         contactViewModel = new ViewModelProvider(this).get(ContactViewModel.class);
         contactViewModel.context = this;
+        Client client = (Client) getIntent().getSerializableExtra("client");
+        this.client = client;
     }
 
     private void updateView(){
@@ -81,19 +85,20 @@ public class CrudDetailsActivity extends AppCompatActivity {
 
                     Contact contact = (Contact) getIntent().getSerializableExtra("contact");
 
-//                    contact.setId(contact.getId());
-//                    contact.setName(binding.etName.getText().toString());
-//                    contact.setPhoneNumber(binding.etContact.getText().toString());
+                    contact.setId(contact.getId());
+                    contact.setName(binding.etName.getText().toString());
+                    contact.setPhoneNumber(binding.etContact.getText().toString());
 //                    contactViewModel.editContact(contact);
-//                    finish();
+                    finish();
                 }else{
-//                    Contact contact = new Contact();
-//                    contact.setName(binding.etName.getText().toString());
-//                    contact.setPhoneNumber(binding.etContact.getText().toString());
-//
-//                    contactViewModel.addContact(contact);
-//                    Toast.makeText(CrudDetailsActivity.this, "Contato salvo", Toast.LENGTH_SHORT).show();
-//                    finish();
+                    Contact contact = new Contact();
+                    contact.setName(binding.etName.getText().toString());
+                    contact.setPhoneNumber(binding.etContact.getText().toString());
+                    contact.setClientId(client.getId());
+
+                    contactViewModel.addContact(contact);
+                    Toast.makeText(CrudDetailsActivity.this, "Contato salvo", Toast.LENGTH_SHORT).show();
+                    finish();
                 }
             }
         });

@@ -39,6 +39,8 @@ public class SqlHelper extends SQLiteOpenHelper {
     private static final String CONTACT_NAME = "name";
     private static final String CONTACT_PHONE_NUMBER = "phone_number";
     private static final String CONTACT_CREATED_DATE = "created_date";
+    private static final String CLIENT_ID_REFERENCE = "client_id";
+
 
     public SqlHelper(Context context) {
         super(context, CLIENT_DATABASE_NAME, null, DATABASE_VERSION);
@@ -61,7 +63,7 @@ public class SqlHelper extends SQLiteOpenHelper {
             + CONTACT_NAME + " TEXT,"
             + CONTACT_PHONE_NUMBER + " TEXT,"
             + CONTACT_CREATED_DATE + " TEXT,"
-            + " FOREIGN KEY (" + CLIENT_ID + ") REFERENCES " + TABLE_CLIENT + "(" + CLIENT_ID + ")" + ")";
+            + CLIENT_ID_REFERENCE + " INTEGER" + ")";
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -132,28 +134,29 @@ public class SqlHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-//    public void addItem(Contact contact){
-//        SQLiteDatabase db = getWritableDatabase();
-//        try {
-//            db.beginTransaction();
+    public void addContact(Contact contact){
+        SQLiteDatabase db = getWritableDatabase();
+        try {
+            db.beginTransaction();
+
+            ContentValues values = new ContentValues();
+            values.put("name", contact.getName());
+            values.put("phone_number", contact.getPhoneNumber());
+            values.put("client_id", contact.getClientId());
+
+//            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", new Locale("pt", "BR"));
+//            String currentDate = sdf.format(new Date());
 //
-//            ContentValues values = new ContentValues();
-//            values.put("name", contact.getName());
-//            values.put("phone_number", contact.getPhoneNumber());
-//
-////            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", new Locale("pt", "BR"));
-////            String currentDate = sdf.format(new Date());
-////
-////            values.put("created_date", currentDate);
-//            db.insertOrThrow(TABLE_CONTACT, null, values);
-//            db.setTransactionSuccessful();
-//        }catch (Exception e){
-//            Log.e("SQLITE", e.getMessage(), e);
-//        } finally {
-//            if(db.isOpen())
-//                db.endTransaction();
-//        }
-//    }
+//            values.put("created_date", currentDate);
+            db.insertOrThrow(TABLE_CONTACT, null, values);
+            db.setTransactionSuccessful();
+        }catch (Exception e){
+            Log.e("SQLITE", e.getMessage(), e);
+        } finally {
+            if(db.isOpen())
+                db.endTransaction();
+        }
+    }
 
 
 //    public void editItem(Contact contact){
@@ -176,25 +179,25 @@ public class SqlHelper extends SQLiteOpenHelper {
 //        db.close();
 //    }
 
-//    public List<Contact> getContacts() {
-//        List<Contact> contactList = new ArrayList<>();
-//        String selectQuery = "SELECT * FROM " + TABLE_CONTACT;
-//
-//        SQLiteDatabase db = this.getReadableDatabase();
-//        Cursor cursor = db.rawQuery(selectQuery, null);
-//
-//        if (cursor.moveToFirst()) {
-//            do {
-//                Contact contact = new Contact();
-//                contact.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID)));
-//                contact.setName(cursor.getString(cursor.getColumnIndex(NAME)));
-//                contact.setPhoneNumber(cursor.getString(cursor.getColumnIndex(PHONE_NUMBER)));
-//
-//                contactList.add(contact);
-//            } while (cursor.moveToNext());
-//        }
-//
-//        cursor.close();
-//        return contactList;
-//    }
+    public List<Contact> getContacts(Client client) {
+        List<Contact> contactList = new ArrayList<>();
+        String selectQuery = "SELECT * FROM " + TABLE_CONTACT + " WHERE client_id = " + client.getId();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Contact contact = new Contact();
+                contact.setId(cursor.getInt(cursor.getColumnIndex(CONTACT_ID)));
+                contact.setName(cursor.getString(cursor.getColumnIndex(CONTACT_NAME)));
+                contact.setPhoneNumber(cursor.getString(cursor.getColumnIndex(CONTACT_PHONE_NUMBER)));
+
+                contactList.add(contact);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return contactList;
+    }
 }

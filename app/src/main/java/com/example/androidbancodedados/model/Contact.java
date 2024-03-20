@@ -10,8 +10,9 @@ public class Contact implements Serializable {
     Integer id;
     String name;
     String phoneNumber;
-
     LocalDateTime createdDate;
+
+    Integer clientId;
 
     public String getName() {
         return name;
@@ -43,5 +44,13 @@ public class Contact implements Serializable {
 
     public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public Integer getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(Integer clientId) {
+        this.clientId = clientId;
     }
 }
